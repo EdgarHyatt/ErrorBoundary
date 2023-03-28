@@ -1,5 +1,5 @@
 
-export type GetErrorDataWithLibrary = (e: Error, message: string) => {
+export type GetErrorDataWithLibrary = (e: Error, message?: string) => {
   message: string,
   errorType: string,
   line: number,

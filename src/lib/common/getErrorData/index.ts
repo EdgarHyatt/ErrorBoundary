@@ -1,4 +1,4 @@
-import { cleanStackErrorLine, getStackErrorInfo, isChromiumBrowser } from './functions';
+import { getStackErrorInfo, isChromiumBrowser } from './functions';
 import { GetErrorData } from './types';
 
 const formats = ['tsx:', 'ts:', 'jsx:', 'js:'];
@@ -16,9 +16,8 @@ export const getErrorData: GetErrorData = (e, message = '') => {
   }
 
   const callerParagraph = split[callerArrayIndex];
-  const caller = cleanStackErrorLine(callerParagraph);
   
-  const { line, char, completePath, shortPath, file } = getStackErrorInfo(formats, caller);
+  const { line, char, completePath, shortPath, file } = getStackErrorInfo(formats, callerParagraph, Boolean(callerArrayIndex));
 
   const errorObject = {
     message: message || e.message,

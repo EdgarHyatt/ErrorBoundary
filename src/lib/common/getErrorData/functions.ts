@@ -1,17 +1,6 @@
-import { CleanStackErrorLine, GetStackErrorInfo, IsChromiumBrowser } from './types';
+import { GetStackErrorInfo, IsChromiumBrowser } from './types';
 
-export const cleanStackErrorLine: CleanStackErrorLine = (text) => {
-  const textSplitter = 'at ';
-  const index = text.indexOf(textSplitter);
-
-  if (index === -1) {
-    return text;
-  }
-
-  return text.slice(index + textSplitter.length - 1, text.length);
-}
-
-export const getStackErrorInfo: GetStackErrorInfo = (formats, text) => {
+export const getStackErrorInfo: GetStackErrorInfo = (formats, text, isChromiumBrowser) => {
   const webpackTextToRemove = 'webpack-internal:///./';
   const indexOfWebpackText = text.indexOf(webpackTextToRemove);
 
@@ -23,8 +12,10 @@ export const getStackErrorInfo: GetStackErrorInfo = (formats, text) => {
       }
       return {format, index};
     }, {format: '', index: 0});
+
+    const offsetForLineAndChar = isChromiumBrowser ? 0 : 1
   
-    const lineAndChar = text.slice(formatIndex + fileFormat.length, text.length - 1).split(':');
+    const lineAndChar = text.slice(formatIndex + fileFormat.length, text.length - 1 + offsetForLineAndChar).split(':');
     const line = lineAndChar[0];
     const char = lineAndChar[1];
      
@@ -35,7 +26,7 @@ export const getStackErrorInfo: GetStackErrorInfo = (formats, text) => {
     const componentText = textArray[textArray.length - 1];
     const file = componentText.slice(0, componentText.indexOf(":"));
 
-    return { line, char, completePath, shortPath, file }
+    return { line, char, completePath, shortPath, file };
   }
 
   const file = text.slice(0, text.length - 1);

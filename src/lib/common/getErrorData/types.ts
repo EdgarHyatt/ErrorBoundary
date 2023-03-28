@@ -1,12 +1,10 @@
-export type GetStackErrorInfo = (formats: string[], text: string) => {
+export type GetStackErrorInfo = (formats: string[], text: string, isChromiumBrowser: boolean) => {
   line: string | null,
   char: string | null,
   completePath: string | null,
   shortPath: string | null,
   file: string
 };
-
-export type CleanStackErrorLine = (text: string) => string;
 
 export type IsChromiumBrowser = (text: string) => RegExpMatchArray | null;
 
