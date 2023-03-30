@@ -1,11 +1,22 @@
 const firstFunctionName = 'DummyComponent';
 const secondFunctionName = 'Index';
 
-const firstFilePath = 'webpack-internal:///./src//DummyComponent/dummyComponent.tsx';
-const secondFilePath = 'webpack-internal:///./src/page/index.js';
+const firstFile = 'dummyComponent.tsx';
+const secondFile = 'index.js';
 
-const firstFileLineChar = '4:23';
-const secondFileLineChar = '70:18';
+const firstFileLine = '4';
+const firstFileChar = '23';
+const secondFileLine = '70';
+const secondFileChar = '28';
+
+const firstFileLineChar = `${firstFileLine}:${firstFileChar}`;
+const secondFileLineChar = `${secondFileLine}:${secondFileChar}`;
+
+const firstFilePath = `webpack-internal:///./src//DummyComponent/${firstFile}`;
+const secondFilePath = `webpack-internal:///./src/page/${secondFile}`;
+
+const firstLocalFilePath = `/Users/project/src//DummyComponent/${firstFile}`;
+const secondLocalFilePath = `/Users/project/src//DummyComponent/page/${secondFile}`;
 
 const firstFilePathInfo = `${firstFilePath}:${firstFileLineChar}`;
 const secondFilePathInfo = `${secondFilePath}:${secondFileLineChar}`;
@@ -20,16 +31,23 @@ ${secondFunctionName}@${secondFilePathInfo}`;
 const mockSafariStack = `${firstFunctionName}@
 ${secondFunctionName}@`
 
+const mockV8Stack = `Error
+at Layer.<anonymous> (${firstLocalFilePath}:${firstFileLineChar})
+at Something.<anonymous> (${secondLocalFilePath}:${secondFileLineChar})
+`;
+
 export const mockStackData = {
+  firstFile,
+  firstFileChar,
+  firstFileLine,
   firstFunctionName,
-  secondFunctionName,
   firstFilePath,
   firstFileLineChar,
-  secondFileLineChar,
+  firstLocalFilePath,
   firstFilePathInfo,
-  secondFilePathInfo,
   mockChromiumStack,
   mockFirefoxStack,
-  mockSafariStack
+  mockSafariStack,
+  mockV8Stack
 };
 

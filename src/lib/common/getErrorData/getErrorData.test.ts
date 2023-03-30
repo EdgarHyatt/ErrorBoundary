@@ -25,9 +25,9 @@ describe('function getErrorData', () => {
       ...genericErrorResponse,
       completePath: mockStackData.firstFilePath,
       shortPath: 'src//DummyComponent/dummyComponent.tsx',
-      file: 'dummyComponent.tsx',
-      line: '4',
-      char: '23'
+      file: mockStackData.firstFile,
+      line: mockStackData.firstFileLine,
+      char: mockStackData.firstFileChar
     };
 
     const mockError = mockErrorImplementation(mockStackData.mockFirefoxStack, mockMessage);
@@ -41,12 +41,28 @@ describe('function getErrorData', () => {
       ...genericErrorResponse,
       completePath: mockStackData.firstFilePath,
       shortPath: 'src//DummyComponent/dummyComponent.tsx',
-      file: 'dummyComponent.tsx',
-      line: '4',
-      char: '23'
+      file: mockStackData.firstFile,
+      line: mockStackData.firstFileLine,
+      char: mockStackData.firstFileChar
     };
 
     const mockError = mockErrorImplementation(mockStackData.mockChromiumStack, mockMessage);
+
+    const errorData = getErrorData(mockError);
+    expect(errorData).toEqual(expectedResult);
+  });
+
+  it('should return parsed data on V8 stack', () => {
+    const expectedResult = {
+      ...genericErrorResponse,
+      completePath: mockStackData.firstLocalFilePath,
+      shortPath: mockStackData.firstLocalFilePath,
+      file: mockStackData.firstFile,
+      line: mockStackData.firstFileLine,
+      char: mockStackData.firstFileChar
+    };
+
+    const mockError = mockErrorImplementation(mockStackData.mockV8Stack, mockMessage);
 
     const errorData = getErrorData(mockError);
     expect(errorData).toEqual(expectedResult);
